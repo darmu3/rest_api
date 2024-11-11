@@ -46,7 +46,7 @@ def update_phone(id_phone):
     conn.commit()
     cur.close()
     conn.close()
-    return jsonify({'status': 'updated'}), 200
+    return jsonify({'status': 'Обновлено успешно!'}), 200
 
 # Удаление телефона
 @app.route('/phones/<int:id_phone>', methods=['DELETE'])
@@ -57,7 +57,7 @@ def delete_phone(id_phone):
     conn.commit()
     cur.close()
     conn.close()
-    return jsonify({'status': 'deleted'}), 200
+    return jsonify({'status': 'Удалено успешно!'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
