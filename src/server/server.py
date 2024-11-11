@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import psycopg2
 
-app = Flask(name)
+app = Flask(__name__)
 
 # Подключение к базе данных
 def get_db_connection():
@@ -59,5 +59,5 @@ def delete_phone(id_phone):
     conn.close()
     return jsonify({'status': 'deleted'}), 200
 
-if name == 'main':
+if __name__ == '__main__':
     app.run(debug=True)
