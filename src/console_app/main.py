@@ -1,22 +1,24 @@
 import requests
+from src.classes.phone import Phone
 
 BASE_URL = 'http://127.0.0.1:5000/phones'
 
 def get_phones():
     response = requests.get(BASE_URL)
     if response.status_code == 200:
-        phones = response.json()
+        phones_data = response.json()
+        phones = [Phone(id_phone=phone[0], name_phone=phone[1], os_phone=phone[2]) for phone in phones_data]
         print("Список телефонов:")
         for phone in phones:
-            print(f"ID: {phone[0]}, Название: {phone[1]}, ОС: {phone[2]}")
+            print(phone)
     else:
         print("Ошибка при получении данных")
 
 def add_phone():
     name = input("Введите название телефона: ")
     os = input("Введите операционную систему: ")
-    data = {'name_phone': name, 'os_phone': os}
-    response = requests.post(BASE_URL, json=data)
+    phone = Phone(id_phone=None, name_phone=name, os_phone=os)
+    response = requests.post(BASE_URL, json=phone.to_dict())
     if response.status_code == 201:
         print("Телефон добавлен:", response.json())
     else:
@@ -26,8 +28,8 @@ def update_phone():
     id_phone = input("Введите ID телефона для обновления: ")
     name = input("Введите новое название телефона: ")
     os = input("Введите новую операционную систему: ")
-    data = {'name_phone': name, 'os_phone': os}
-    response = requests.put(f'{BASE_URL}/{id_phone}', json=data)
+    phone = Phone(id_phone=id_phone, name_phone=name, os_phone=os)
+    response = requests.put(f'{BASE_URL}/{id_phone}', json=phone.to_dict())
     if response.status_code == 200:
         print("Телефон обновлен")
     else:
